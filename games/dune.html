@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><base href="../">
+  <meta name="theme-color" content="#10100f"><meta name="description" content="Cross the deep desert, follow the spice, and awaken the maker. Play instantly with free demo credits.">
+  <title>Dune: Spice &amp; Sand — Worlds Arcade</title>
+  <link rel="preload" as="image" href="assets/dune.webp"><link rel="preload" as="image" href="assets/characters/dune-idle.webp">
+  <link rel="stylesheet" href="style.css"><link rel="stylesheet" href="cinema.css"><link rel="stylesheet" href="bonus.css"><link rel="stylesheet" href="arcade.css"><link rel="stylesheet" href="fullscreen.css">
+</head>
+<body class="game-page" data-game="dune" style="--accent:#e4b56c;--accent2:#76c4dc;--world-image:url('assets/dune.webp')">
+  <div class="world-background" aria-hidden="true"></div><div class="world-grain" aria-hidden="true"></div>
+  <header class="site-header game-header">
+    <a class="brand" href="index.html" aria-label="Worlds Arcade home"><span class="brand-mark">W</span><span>WORLDS<span class="brand-sub">THE ARCADE COLLECTION</span></span></a>
+    <nav class="game-nav" aria-label="Choose game"><a href="games/the-pass.html" ><span class="nav-dot" style="--dot:#dbad68"></span>The Pass</a><a href="games/dune.html" aria-current="page"><span class="nav-dot" style="--dot:#e4b56c"></span>Dune</a><a href="games/witcher.html" ><span class="nav-dot" style="--dot:#c5d6c6"></span>The Witcher</a><a href="games/ukraine.html" ><span class="nav-dot" style="--dot:#e8c76b"></span>Sunflower Rising</a></nav><a class="collection-back" href="index.html">All worlds <span>↗</span></a>
+  </header>
+  <main class="game-main">
+    <div class="game-title-row">
+      <div><p class="eyebrow">ARRAKIS · CHAPTER 02</p><h1>Dune</h1></div>
+      <div class="game-tools">
+        <button class="tool-button" id="soundButton" type="button" aria-pressed="false" title="Toggle sound"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 9h4l5-4v14l-5-4H4zM17 8a6 6 0 010 8M20 5a10 10 0 010 14"/></svg><span>Sound</span></button>
+        <button class="tool-button" id="motionButton" type="button" aria-pressed="false" title="Toggle reduced motion"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13 3 5 14h6l-1 7 9-12h-6z"/></svg><span>Motion</span></button>
+        <button class="tool-button" id="helpButton" type="button" aria-label="Game rules and paytable"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 115 0c0 2-2.5 2-2.5 4M12 16.5v.5"/></svg><span>How to play</span></button>
+      </div>
+    </div>
+    <div class="game-arena">
+      <section id="worldStage" class="world-stage" aria-label="Dune character scene">
+        <div class="scene-atmosphere" aria-hidden="true"></div><div class="character-anchor" aria-hidden="true"></div>
+        <div class="scene-caption"><span id="characterName"></span><p id="characterLine"></p></div>
+      </section>
+      <div class="game-column">
+        <section class="cabinet" id="stage" aria-label="Dune game">
+          <div class="cabinet-top"><div class="cabinet-title"><span class="cabinet-gem">✦</span><span>Ride the Maker</span></div><div class="power-wrap"><span id="featureLabel">0 / 5</span><div class="power-track"><div id="featureMeter"></div></div><span class="power-badge">BONUS</span></div></div>
+          <div class="reel-well"><div id="reels" class="reels" aria-label="Five reels, three rows"></div><div class="reel-shadow" aria-hidden="true"></div>
+            <div id="winOverlay" class="win-overlay" role="dialog" aria-modal="true" aria-label="Win result" hidden><div class="win-panel"><p id="winTitle">A LITTLE FORTUNE</p><strong id="winAmount">0</strong><span>DEMO CREDITS</span><button id="closeWin" type="button">Continue <span>→</span></button></div></div>
+          </div>
+          <div class="cabinet-bottom"><span>5 LINES · 5 REELS</span><span id="gameStatus">READY WHEN YOU ARE</span><span>DEMO PLAY</span></div>
+        </section>
+        <div class="game-message"><span class="message-star" aria-hidden="true">✦</span><p id="message" role="status" aria-live="polite" aria-atomic="true">Complete five spins to unlock Ride the Maker. Time three thumper beats to cross the deep desert.</p></div>
+        <section class="control-deck" aria-label="Game controls">
+          <div class="credit-stat balance-stat"><span>BALANCE</span><strong id="balance">1,000.00</strong><small>DEMO CREDITS</small></div>
+          <div class="credit-stat win-stat"><span>LAST RETURN</span><strong id="win">0.00</strong><small id="sessionNet">SESSION +0.00</small></div>
+          <div class="bet-control"><button id="betDown" type="button" aria-label="Lower bet">−</button><div class="credit-stat"><span>BET</span><strong id="bet">5.00</strong></div><button id="betUp" type="button" aria-label="Raise bet">+</button></div>
+          <button id="spinButton" class="spin-button" type="button"><svg viewBox="0 0 32 32" aria-hidden="true"><path d="M25 12a10 10 0 10.2 7M25 5v8h-8"/></svg><span data-spin-label>SPIN</span><small>SPACE TO PLAY</small></button>
+        </section>
+        <section class="bonus-dock" aria-label="Bonus round"><div><span class="bonus-dock-label">YOUR NEXT ADVENTURE</span><p id="bonusStatus">Five spins unlock Ride the Maker.</p></div><div class="bonus-dock-actions"><button id="previewBonus" type="button">Try bonus <span>↗</span></button><button id="bonusButton" type="button" disabled>Enter bonus <span>→</span></button></div></section>
+      </div>
+    </div>
+  </main>
+  <footer class="game-footer">Unofficial fan concept. Names and worlds belong to their respective rights holders.</footer>
+  <dialog id="helpDialog" class="help-dialog">
+    <div class="dialog-head"><span class="eyebrow">THE FIELD GUIDE</span><button id="closeHelp" type="button" aria-label="Close rules">×</button></div>
+    <h2>How to play</h2>
+    <nav class="help-tabs" role="tablist" aria-label="Game information"><button type="button" role="tab" id="rulesTab" aria-selected="true" aria-controls="rulesPanel" data-help-tab="rules">Game rules</button><button type="button" role="tab" id="payoutTab" aria-selected="false" aria-controls="payoutPanel" data-help-tab="payout">Paytable</button></nav>
+    <div class="help-panels">
+      <section class="help-panel" id="rulesPanel" role="tabpanel" aria-labelledby="rulesTab" data-help-panel="rules"><p>Choose a bet and spin. Match 3 or more symbols from the left on any of 5 fixed lines. Wilds substitute for all line symbols except Scatter.</p><p><strong>Ride the Maker:</strong> Complete five spins to unlock Ride the Maker. Time three thumper beats to cross the deep desert.</p><p>Three or more Scatters anywhere return 20× your bet. Only the highest return on each line is paid.</p><div class="line-guide"><span>━━━━━</span><span>╲___╱</span><span>╱‾‾‾╲</span><p>Three horizontal lines and two diagonal lines.</p></div><p class="small muted">Free demo credits only. No purchases or cash prizes. Your progress is saved on this browser.</p></section>
+      <section class="help-panel" id="payoutPanel" role="tabpanel" aria-labelledby="payoutTab" data-help-panel="payout" hidden><div id="paytable" class="paytable"></div></section>
+    </div>
+    <footer class="help-footer"><button id="resetButton" type="button">Reset demo</button><span>DEMO CREDITS · NO CASH VALUE</span><button id="standaloneFullscreen" type="button" data-fullscreen-toggle>Full screen</button></footer>
+  </dialog>
+  <script type="module" src="fullscreen.js"></script><script type="module" src="engine.js"></script>
+</body></html>

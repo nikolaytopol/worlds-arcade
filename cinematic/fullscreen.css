@@ -1,0 +1,213 @@
+/* Viewport-owned playfield: no document or nested-frame scrolling during play. */
+html:has(body.game-page),html:has(body.arcade-playing){height:100%;overflow:hidden;overscroll-behavior:none}
+body.arcade-playing{height:100vh;height:var(--app-height,100dvh);min-height:0;overflow:hidden;overscroll-behavior:none}
+.arcade-playing>.site-header{display:none}
+.arcade-player{height:100vh;height:var(--app-height,100dvh);display:flex;flex-direction:column;min-height:0;overflow:hidden}
+.arcade-player[hidden]{display:none}
+.player-toolbar{height:auto;min-height:48px;padding:env(safe-area-inset-top) max(12px,env(safe-area-inset-right)) 0 max(12px,env(safe-area-inset-left));flex:0 0 auto;gap:10px}
+.player-worlds{min-width:0;overflow:visible}
+.player-worlds button{min-height:40px;padding:8px 18px;font-size:11px}
+.library-button{min-height:40px}
+.player-mode{display:none}
+.viewport-fullscreen{display:grid;place-items:center;flex:none;width:40px;height:40px;border:1px solid #c9bd9633;border-radius:6px;background:#ffffff05;color:#ddccaa}
+.viewport-fullscreen svg{width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.5}
+.player-frame-wrap{height:auto;flex:1 1 0;min-height:0;overflow:hidden}
+.game-frame{height:100%;width:100%;min-height:0;overflow:hidden;overscroll-behavior:none}
+.frame-loading p{font-size:24px}
+
+.game-page{height:100vh;height:var(--app-height,100dvh);min-height:0;width:100%;margin:0;overflow:hidden;overscroll-behavior:none;display:flex;flex-direction:column}
+.game-page .game-header{height:48px;min-height:48px;padding:0 14px;flex:0 0 auto;width:100%;max-width:none;gap:10px;flex-wrap:nowrap}
+.game-page .game-header .brand{font-size:12px;gap:8px}
+.game-page .game-header .brand-sub{display:none}
+.game-page .game-header .brand-mark{width:27px;height:31px;font-size:20px}
+.game-page .game-header .game-nav{order:initial;width:auto;flex:none;gap:3px;padding:3px}
+.game-page .game-header .game-nav a{font-size:10px;padding:7px 12px;min-height:36px;display:flex;align-items:center}
+.game-page .collection-back{display:block;font-size:9px;white-space:nowrap}
+.game-page.embedded .game-header{display:none}
+.game-page .game-footer,.game-page .game-bottom{display:none}
+.game-page .game-main,.game-page.embedded .game-main{width:100%;max-width:none;padding:12px max(14px,env(safe-area-inset-right)) max(12px,env(safe-area-inset-bottom)) max(14px,env(safe-area-inset-left));margin:0;display:grid;grid-template-rows:44px minmax(0,1fr);gap:10px;min-height:0;flex:1 1 0;overflow:hidden}
+.game-page .game-title-row,.game-page.embedded .game-title-row{height:44px;min-height:0;margin:0;gap:10px;align-items:center}
+.game-page .game-title-row>div:first-child{min-width:0;display:flex;align-items:baseline;gap:18px}
+.game-page .game-title-row h1,.game-page.embedded .game-title-row h1{font-size:34px;line-height:1;margin:0;white-space:nowrap}
+.game-page .game-title-row .eyebrow{font-size:8px;margin:0;order:2;white-space:nowrap}
+.game-page .game-tools{gap:7px;flex:none}
+.game-page .tool-button{height:36px;min-height:36px;padding:7px 10px;border-radius:6px;font-size:9px}
+.game-page .tool-button:after{inset:-4px -2px}
+.game-page .game-arena{display:grid;grid-template-columns:minmax(210px,31%) minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:18px;height:100%;min-height:0;overflow:hidden}
+.game-page .world-stage,.game-page.embedded .world-stage{height:100%;min-height:0;max-height:none;margin:0;align-self:stretch;border-radius:14px}
+.game-page .character-anchor,.game-page .world-stage .character-anchor{inset:0 -18% -3%;width:auto;transform-origin:50% 85%;contain:layout style}
+.game-page .character-pose,.game-page .world-stage .character-pose{width:100%;height:100%;object-fit:contain;object-position:center bottom;max-width:none;filter:drop-shadow(0 8px 10px #0007);backface-visibility:hidden}
+.game-page .scene-caption{top:auto;bottom:0;left:0;right:0;transform:none;padding:22px 20px 18px;background:linear-gradient(transparent,#0a100be8 40%)}
+.game-page .scene-caption>span{font-size:9px;line-height:1.4;letter-spacing:.1em}
+.game-page .scene-caption>p{font-size:clamp(18px,2vw,27px);line-height:1.08;margin-top:8px;max-width:none}
+.game-page .scene-chapter{top:18px;left:18px;font-size:8px}
+.game-page .game-column{display:grid;grid-template-rows:minmax(0,1fr) 26px 82px 48px;gap:8px;min-width:0;min-height:0;height:100%;overflow:hidden}
+.game-page .cabinet{height:100%;min-height:0;padding:10px;display:grid;grid-template-rows:32px minmax(0,1fr) 17px;gap:0;border-radius:12px;overflow:visible}
+.game-page .cabinet-top{height:32px;min-height:0;padding:0 4px 7px;gap:8px}
+.game-page .cabinet-title{font-size:9px;letter-spacing:.1em;min-width:0;white-space:nowrap}
+.game-page .power-wrap{gap:8px;flex:none}
+.game-page .power-wrap>span:first-child{font-size:8px;min-width:28px}
+.game-page .power-track{width:clamp(50px,9vw,150px)}
+.game-page .power-badge{font-size:7px;padding:4px 7px}
+.game-page .reel-well{height:100%;min-height:0;overflow:hidden}
+.game-page .reels{height:100%;min-height:0;padding:4px;gap:4px}
+.game-page .game-column .reel,.game-page.embedded .game-column .reel{height:100%;min-height:0;border-radius:4px;overflow:hidden;contain:layout paint}
+.game-page .game-column .symbol,.game-page.embedded .game-column .symbol{height:var(--symbol-height,33.333%);min-height:0}
+.game-page .game-column .symbol>svg{width:80%;height:83%;max-height:none;max-width:170px;filter:drop-shadow(0 5px 6px #0008);backface-visibility:hidden}
+.game-page .cabinet-bottom{font-size:7px;line-height:1;padding:7px 4px 0;white-space:nowrap}
+.game-page .game-message{height:26px;min-height:0;gap:6px;padding:0 3px;overflow:hidden}
+.game-page .game-message p{margin:0;font-size:10px;line-height:1.25;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden}
+.game-page .message-star{font-size:10px}
+.game-page .control-deck{height:82px;min-height:0;grid-template-columns:1fr 1fr 1.15fr minmax(100px,.95fr);grid-template-rows:minmax(0,1fr);gap:12px;padding:10px 16px;border-radius:8px}
+.game-page .credit-stat>span{font-size:8px;letter-spacing:.1em;margin-bottom:2px}
+.game-page .credit-stat>strong{font-size:clamp(24px,2.5vw,35px);line-height:1.05;white-space:nowrap}
+.game-page .credit-stat>small{font-size:6px;margin-top:4px;white-space:nowrap}
+.game-page .win-stat{padding-left:15px;grid-column:auto;grid-row:auto}
+.game-page .balance-stat{grid-column:auto;grid-row:auto}
+.game-page .bet-control{grid-column:auto;grid-row:auto;justify-content:center;padding-left:10px;border-left:1px solid #b4a57d20;gap:10px}
+.game-page .bet-control .credit-stat{min-width:38px}
+.game-page .bet-control .credit-stat>strong{font-size:28px}
+.game-page .bet-control button{height:40px;width:40px;min-width:40px;min-height:40px;flex:none}
+.game-page .game-column .spin-button{grid-column:auto;grid-row:auto;min-height:0;height:60px;margin:0;gap:2px 8px;padding:8px 10px;align-self:center}
+.game-page .spin-button>span{font-size:12px;letter-spacing:.08em}
+.game-page .spin-button>small{font-size:6px}
+.game-page .spin-button>svg{height:25px;width:25px}
+.game-page .bonus-dock,.game-page.embedded .bonus-dock{height:48px;min-height:0;display:flex;align-items:center;justify-content:space-between;margin:0;padding:0 2px;border:0;gap:12px;overflow:hidden}
+.game-page .bonus-dock>div:first-child{margin:0;display:block;min-width:0}
+.game-page .bonus-dock-label{font-size:6px;letter-spacing:.1em}
+.game-page .bonus-dock p{font-size:9px;line-height:1.25;margin:4px 0 0;max-width:none}
+.game-page .bonus-dock-actions{display:flex;gap:8px;flex:none}
+.game-page .bonus-dock button{min-height:42px;height:42px;padding:8px 15px;font-size:10px;white-space:nowrap}
+.game-page .bonus-dock #bonusButton.is-ready{box-shadow:inset 0 0 0 1px var(--accent)}
+.game-page .win-panel{padding:16px;max-height:100%;overflow:hidden}
+.game-page .win-panel>p{font-size:10px;margin-bottom:3px}
+.game-page .win-panel>strong{font-size:clamp(35px,7vh,90px)}
+.game-page .win-panel>span{margin:7px 0 12px}
+.game-page .win-panel>button{min-height:40px;padding:7px 18px}
+
+/* Information uses compact tabs rather than adding another scroll region. */
+.game-page .help-dialog{width:min(560px,calc(100% - 20px));height:min(660px,calc(100dvh - 20px));max-height:calc(100dvh - 20px);padding:20px;overflow:hidden;display:none;grid-template-rows:32px 40px 38px minmax(0,1fr) 44px;gap:8px}
+.game-page .help-dialog[open]{display:grid}
+.game-page .help-dialog .dialog-head{min-height:0}
+.game-page .help-dialog h2{font-size:34px;line-height:1;margin:0}
+.help-tabs{display:flex;gap:6px}
+.help-tabs button{min-height:36px;border:1px solid #ffffff20;background:#ffffff05;color:#b9b69f;border-radius:5px;padding:7px 16px;font-size:11px}
+.help-tabs button[aria-selected=true]{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}
+.help-panels,.help-panel{min-height:0;overflow:hidden}
+.help-panel[hidden]{display:none}
+.game-page .help-panel p{font-size:11px;line-height:1.55;margin:0 0 10px}
+.game-page .help-panel .line-guide{gap:16px;margin:12px 0}
+.game-page .help-panel .line-guide p{margin:0}
+.game-page .paytable{margin:0}
+.help-panel .paytable-intro,.help-panel .paytable-notes{display:none}
+.game-page .payout-table{font-size:11px}
+.game-page .payout-table td,.game-page .payout-table th{padding:8px}
+.help-footer{display:flex;align-items:center;justify-content:space-between;gap:10px;border-top:1px solid #ffffff12;padding-top:7px}
+.help-footer button{min-height:36px;border:1px solid #d0ba7d55;border-radius:5px;background:#d0ba7d0c;padding:6px 12px;color:#ddc78f;font-size:10px}
+.help-footer>span{font-size:8px;color:#8e9681}
+
+@media(max-width:1100px){
+ .game-page .game-arena{grid-template-columns:29% minmax(0,1fr);gap:12px}
+ .game-page .control-deck{gap:8px;padding:9px 12px;grid-template-columns:1fr .85fr 1.1fr 110px}
+ .game-page .credit-stat>strong{font-size:28px}
+ .game-page .bet-control{gap:5px;padding-left:6px}
+ .game-page .bet-control button{height:36px;width:36px;min-width:36px;min-height:36px}
+ .game-page .bet-control .credit-stat>strong{font-size:24px}
+ .game-page .scene-caption>p{font-size:21px}
+ .game-page .game-title-row .eyebrow{display:none}
+ .game-page .bonus-dock p{font-size:8px}
+}
+@media(max-width:760px) and (orientation:portrait){
+ .player-toolbar{min-height:44px;padding-inline:4px;gap:2px}
+ .player-worlds{flex:1;gap:1px;justify-content:space-evenly}
+ .player-worlds button{min-height:40px;padding:7px 8px;font-size:8px;gap:4px}
+ .player-worlds i{height:3px;width:3px}
+ .library-button{font-size:0;width:27px;padding:0;flex:none}
+ .library-button:after{font-size:18px;content:'←'}
+ .viewport-fullscreen{width:31px;height:36px;border:0;background:none}
+ .viewport-fullscreen svg{width:16px;height:16px}
+ .game-page .game-header{height:44px;min-height:44px;padding:0 4px;gap:3px}
+ .game-page .game-header .brand{display:none}
+ .game-page .game-header .game-nav{flex:1;justify-content:space-between;gap:1px;padding:2px}
+ .game-page .game-header .game-nav a{font-size:8px;padding:6px 8px;min-height:36px}
+ .game-page .collection-back{font-size:0;width:27px}
+ .game-page .collection-back:after{content:'↗';font-size:18px}
+ .game-page .collection-back>span{display:none}
+ .game-page .game-main,.game-page.embedded .game-main{padding:7px 8px max(7px,env(safe-area-inset-bottom));grid-template-rows:38px minmax(0,1fr);gap:6px}
+ .game-page .game-title-row,.game-page.embedded .game-title-row{height:38px;gap:5px}
+ .game-page .game-title-row h1,.game-page.embedded .game-title-row h1{font-size:clamp(22px,6vw,30px);white-space:normal;line-height:.95}
+ .game-page .game-tools{gap:4px}
+ .game-page .tool-button{height:34px;min-height:34px;width:34px;min-width:34px;padding:8px;border-radius:50%}
+ .game-page .tool-button>span{display:none}
+ .game-page .tool-button svg{height:15px;width:15px}
+ .game-page .game-arena{grid-template-columns:minmax(0,1fr);grid-template-rows:minmax(90px,23%) minmax(0,1fr);gap:7px}
+ .game-page .world-stage,.game-page.embedded .world-stage{height:100%;min-height:0;margin:0;border-radius:9px}
+ .game-page .world-stage .character-anchor{left:42%;right:-3%;top:4px;bottom:-85%;width:auto}
+ .game-page .world-stage .character-pose{object-fit:cover;object-position:50% 0;filter:drop-shadow(0 6px 7px #0006)}
+ .game-page .scene-chapter{font-size:6px;top:11px;left:12px}
+ .game-page .scene-caption{left:0;right:48%;top:0;bottom:0;display:flex;justify-content:center;flex-direction:column;padding:26px 12px 9px;background:linear-gradient(90deg,#0a100b99,transparent)}
+ .game-page .scene-caption>span{font-size:7px;line-height:1.3}
+ .game-page .scene-caption>p{font-size:clamp(15px,4.3vw,22px);line-height:1.06;margin-top:7px;max-width:210px}
+ .game-page .scene-boss{left:10%;bottom:-15%;width:90%;height:130%}
+ .game-page .world-stage[data-world=witcher] .scene-boss{left:40%;width:60%;height:140%;top:-10%}
+ .game-page .game-column{grid-template-rows:minmax(0,1fr) 24px 94px 42px;gap:5px}
+ .game-page .cabinet{padding:6px;grid-template-rows:27px minmax(0,1fr) 12px;border-radius:9px}
+ .game-page .cabinet-top{height:27px;padding:0 2px 5px}
+ .game-page .cabinet-title{font-size:7px;gap:5px}
+ .game-page .cabinet-gem{font-size:12px}
+ .game-page .power-wrap{gap:5px}
+ .game-page .power-track{width:42px}
+ .game-page .power-wrap>span:first-child{font-size:6px}
+ .game-page .power-badge{font-size:5px;padding:3px 4px}
+ .game-page .reels{gap:2px;padding:2px}
+ .game-page .reel-well{border-radius:5px}
+ .game-page .game-column .symbol>svg{width:87%;height:83%;max-height:none;max-width:90px;filter:drop-shadow(0 3px 4px #0007)}
+ .game-page .cabinet-bottom{padding:5px 1px 0;font-size:5px;letter-spacing:.06em}
+ .game-page .game-message{height:24px;padding:0 3px;gap:5px}
+ .game-page .game-message p{font-size:8px;line-height:1.2}
+ .game-page .control-deck{height:94px;padding:6px 9px;grid-template-columns:1fr 1fr;grid-template-rows:30px minmax(0,1fr);gap:5px 15px}
+ .game-page .balance-stat{grid-column:1;grid-row:1}
+ .game-page .win-stat{grid-column:2;grid-row:1;padding-left:12px}
+ .game-page .credit-stat>span{font-size:6px;letter-spacing:.08em;margin:0}
+ .game-page .credit-stat>strong{font-size:24px;line-height:1}
+ .game-page .credit-stat>small{display:none}
+ .game-page .bet-control{grid-column:1;grid-row:2;border-left:0;padding:0;gap:5px;justify-content:space-between}
+ .game-page .bet-control button{width:40px;height:40px;min-width:40px;min-height:40px;font-size:19px}
+ .game-page .bet-control .credit-stat{min-width:34px}
+ .game-page .bet-control .credit-stat>strong{font-size:23px}
+ .game-page .game-column .spin-button{grid-column:2;grid-row:2;height:42px;min-height:0;column-gap:7px;padding:5px 8px}
+ .game-page .spin-button>small{display:none}
+ .game-page .spin-button>svg{height:23px;width:23px;grid-row:1}
+ .game-page .spin-button>span{font-size:12px;align-self:center}
+ .game-page .bonus-dock,.game-page.embedded .bonus-dock{height:42px;padding:0;display:block}
+ .game-page .bonus-dock>div:first-child{position:absolute;width:1px;height:1px;clip-path:inset(50%);overflow:hidden;white-space:nowrap}
+ .game-page .bonus-dock-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:42px}
+ .game-page .bonus-dock button{height:42px;min-height:42px;width:100%;padding:7px 9px;font-size:9px}
+ .game-page .win-panel>p{font-size:7px}
+ .game-page .win-panel>strong{font-size:clamp(28px,6vh,55px)}
+ .game-page .win-panel>span{font-size:5px;margin:5px 0 8px}
+ .game-page .win-panel>button{min-height:32px;font-size:9px;padding:4px 12px}
+ .game-page .help-dialog{padding:14px;grid-template-rows:30px 33px 36px minmax(0,1fr) 42px;gap:7px}
+ .game-page .help-panel p{font-size:10px;line-height:1.4;margin-bottom:9px}
+ .game-page .payout-table{font-size:10px}
+ .game-page .payout-table th,.game-page .payout-table td{padding:6px}
+ .game-page .help-panel .line-guide{margin:8px 0}
+}
+@media(max-width:360px) and (orientation:portrait){.player-worlds button{font-size:7px;padding:6px}.player-worlds button i{display:none}.viewport-fullscreen{width:26px}.game-page .scene-chapter{display:none}.game-page .scene-caption{padding-top:10px}.game-page .scene-caption>span{font-size:6px}.game-page .scene-caption>p{font-size:15px}.game-page .game-main,.game-page.embedded .game-main{padding-inline:6px}.game-page .cabinet-title{font-size:6px}.game-page .power-badge{display:none}.game-page .credit-stat>strong{font-size:22px}}
+@media(orientation:landscape) and (max-height:520px){
+ .player-toolbar{min-height:40px}.player-worlds button{min-height:36px;font-size:9px;padding:6px 12px}.viewport-fullscreen{height:34px;width:36px}.library-button{min-height:36px;font-size:9px}
+ .game-page .game-header{height:40px;min-height:40px}.game-page .game-header .brand{display:none}.game-page .game-header .game-nav{margin:auto}.game-page .game-header .game-nav a{min-height:32px;font-size:9px}
+ .game-page .game-main,.game-page.embedded .game-main{padding:5px 9px;grid-template-rows:30px minmax(0,1fr);gap:5px}
+ .game-page .game-title-row,.game-page.embedded .game-title-row{height:30px}.game-page .game-title-row h1,.game-page.embedded .game-title-row h1{font-size:25px}.game-page .tool-button{height:28px;min-height:28px;padding:5px 9px}.game-page .tool-button>span{display:none}
+ .game-page .game-arena{grid-template-columns:24% minmax(0,1fr);grid-template-rows:minmax(0,1fr);gap:10px}
+ .game-page .world-stage,.game-page.embedded .world-stage{height:100%;min-height:0;margin:0}
+ .game-page .world-stage .character-anchor{inset:0 -10% -12%;width:auto}.game-page .world-stage .character-pose{object-fit:contain;object-position:center bottom}
+ .game-page .scene-chapter{font-size:5px;top:9px;left:9px}.game-page .scene-caption{top:auto;bottom:0;left:0;right:0;transform:none;padding:12px 10px 9px;background:linear-gradient(transparent,#0a100be8)}.game-page .scene-caption>span{font-size:6px}.game-page .scene-caption>p{font-size:15px;line-height:1;margin-top:4px}
+ .game-page .game-column{grid-template-rows:minmax(0,1fr) 18px 50px 36px;gap:4px}
+ .game-page .cabinet{padding:5px;grid-template-rows:23px minmax(0,1fr) 10px}.game-page .cabinet-top{height:23px;padding:0 3px 4px}.game-page .cabinet-title{font-size:7px}.game-page .cabinet-bottom{font-size:5px;padding-top:4px}.game-page .power-track{width:70px}.game-page .power-badge{font-size:5px}.game-page .reels{padding:2px;gap:3px}.game-page .game-column .symbol>svg{height:89%;max-width:95px;filter:drop-shadow(0 2px 3px #0006)}
+ .game-page .game-message{height:18px}.game-page .game-message p{font-size:8px;-webkit-line-clamp:1}
+ .game-page .control-deck{height:50px;padding:4px 9px;gap:8px;grid-template-columns:1fr .85fr 1.2fr 100px;grid-template-rows:minmax(0,1fr)}.game-page .credit-stat>span{font-size:5px;margin:0}.game-page .credit-stat>strong{font-size:23px;line-height:1}.game-page .credit-stat>small{display:none}.game-page .win-stat{padding-left:10px}.game-page .bet-control{grid-row:auto;grid-column:auto;gap:6px;padding-left:6px;border-left:1px solid #b4a57d20}.game-page .bet-control button{width:32px;height:36px;min-width:32px;min-height:36px}.game-page .bet-control .credit-stat>strong{font-size:22px}.game-page .game-column .spin-button{height:40px;min-height:0;grid-row:auto;grid-column:auto;padding:4px 8px}.game-page .spin-button>span{font-size:11px}.game-page .spin-button>small{display:none}.game-page .spin-button>svg{width:22px;height:22px;grid-row:1}
+ .game-page .bonus-dock,.game-page.embedded .bonus-dock{height:36px}.game-page .bonus-dock-label{display:none}.game-page .bonus-dock p{font-size:7px;margin:0}.game-page .bonus-dock-actions{height:36px;display:flex}.game-page .bonus-dock button{height:36px;min-height:36px;padding:5px 12px;font-size:8px}
+ .game-page .help-dialog{width:min(740px,calc(100% - 16px));height:calc(100dvh - 12px);max-height:calc(100dvh - 12px);padding:10px 16px;grid-template-columns:155px minmax(0,1fr);grid-template-rows:30px minmax(0,1fr) 36px;gap:8px 18px}.game-page .help-dialog>.dialog-head{grid-column:1;grid-row:1}.game-page .help-dialog>h2{grid-column:1;grid-row:2;font-size:28px}.game-page .help-tabs{grid-column:1;grid-row:2;align-self:end;flex-direction:column}.game-page .help-panels{grid-column:2;grid-row:1/3}.game-page .help-footer{grid-column:1/-1;grid-row:3}.game-page .help-panel p{font-size:10px;line-height:1.4;margin-bottom:7px}.game-page .help-panel .line-guide{margin:5px 0}.game-page .payout-table td,.game-page .payout-table th{font-size:9px;padding:4px 6px}
+}
+@media(prefers-reduced-motion:reduce){.game-page:not(.motion-full) .character-anchor,.game-page:not(.motion-full) .scene-boss{transform:none!important}}

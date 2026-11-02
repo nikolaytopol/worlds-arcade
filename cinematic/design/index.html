@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>The Pass — Design Direction Decision Deck</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #0e0d0c;
+      --panel: #171513;
+      --panel-2: #211e1a;
+      --text: #f6efe3;
+      --muted: #bdb2a4;
+      --line: rgba(246,239,227,.14);
+      --gold: #d8ae67;
+      --red: #dd5c45;
+      --green: #9fc28a;
+      --blue: #79b7ee;
+      --radius: 24px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      background:
+        radial-gradient(circle at 85% -10%, rgba(216,174,103,.13), transparent 35rem),
+        radial-gradient(circle at -10% 25%, rgba(121,183,238,.08), transparent 30rem),
+        var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+    }
+
+    a { color: inherit; }
+    .wrap { width: min(1180px, calc(100% - 32px)); margin: 0 auto; }
+    .eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: .16em; font-size: .74rem; font-weight: 760; }
+    h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; letter-spacing: -.025em; }
+    h1 { max-width: 900px; margin: 12px 0 18px; font-size: clamp(3rem, 8vw, 7.5rem); line-height: .88; }
+    h2 { margin: 0 0 16px; font-size: clamp(2rem, 5vw, 4rem); line-height: 1; }
+    h3 { margin: 0 0 10px; font-size: 1.55rem; }
+    p { margin: 0 0 14px; }
+    ul, ol { margin: 10px 0 0; padding-left: 1.25rem; }
+    li + li { margin-top: 7px; }
+    .muted { color: var(--muted); }
+    .small { font-size: .88rem; }
+
+    header { padding: 64px 0 44px; border-bottom: 1px solid var(--line); }
+    .lede { max-width: 800px; color: var(--muted); font-size: clamp(1.05rem, 2.2vw, 1.35rem); }
+    .notice {
+      margin-top: 28px;
+      padding: 16px 18px;
+      border: 1px solid rgba(221,92,69,.4);
+      border-radius: 14px;
+      background: rgba(221,92,69,.08);
+    }
+
+    nav { position: sticky; top: 0; z-index: 10; backdrop-filter: blur(18px); background: rgba(14,13,12,.78); border-bottom: 1px solid var(--line); }
+    nav .wrap { display: flex; gap: 8px; overflow-x: auto; padding-block: 10px; }
+    nav a { flex: 0 0 auto; text-decoration: none; border: 1px solid var(--line); border-radius: 999px; padding: 8px 12px; color: var(--muted); font-size: .82rem; }
+    nav a:hover, nav a:focus-visible { color: var(--text); border-color: var(--gold); outline: none; }
+
+    section { padding: 72px 0; border-bottom: 1px solid var(--line); }
+    .grid { display: grid; gap: 18px; }
+    .grid.two { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .grid.three { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .card { border: 1px solid var(--line); background: linear-gradient(145deg, rgba(255,255,255,.045), rgba(255,255,255,.015)); border-radius: var(--radius); padding: 24px; }
+    .tag { display: inline-flex; align-items: center; min-height: 28px; border-radius: 999px; padding: 5px 10px; font-size: .74rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; color: #16120d; background: var(--gold); }
+    .tag.red { background: var(--red); color: #fff; }
+    .tag.blue { background: var(--blue); }
+    .tag.green { background: var(--green); }
+    .number { font-family: Georgia, serif; font-size: 2.6rem; color: var(--gold); line-height: 1; }
+    .audit-card h3 { font-family: inherit; font-size: 1rem; letter-spacing: 0; }
+
+    .direction { display: grid; grid-template-columns: minmax(0, .85fr) minmax(0, 1.15fr); gap: 32px; align-items: start; }
+    .mockup { position: sticky; top: 70px; border-radius: 28px; overflow: hidden; border: 1px solid var(--line); background: #000; }
+    .mockup img { display: block; width: 100%; height: auto; }
+    .specs { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 12px; margin-top: 22px; }
+    .spec { border-top: 1px solid var(--line); padding-top: 12px; }
+    .spec strong { display: block; margin-bottom: 4px; color: var(--gold); font-size: .78rem; text-transform: uppercase; letter-spacing: .09em; }
+
+    .swatches { display: flex; gap: 7px; margin: 18px 0; }
+    .swatches i { width: 38px; aspect-ratio: 1; border-radius: 50%; box-shadow: inset 0 0 0 1px rgba(255,255,255,.2); }
+
+    table { width: 100%; border-collapse: collapse; border: 1px solid var(--line); background: rgba(255,255,255,.02); }
+    th, td { border-bottom: 1px solid var(--line); padding: 14px; text-align: left; vertical-align: top; }
+    th { color: var(--muted); font-size: .72rem; text-transform: uppercase; letter-spacing: .08em; }
+    td:first-child { font-weight: 760; }
+    .score { color: var(--gold); white-space: nowrap; }
+
+    .timeline { counter-reset: beat; display: grid; gap: 10px; margin-top: 20px; }
+    .beat { counter-increment: beat; display: grid; grid-template-columns: 56px 110px 1fr; gap: 14px; align-items: baseline; padding: 14px 0; border-top: 1px solid var(--line); }
+    .beat::before { content: counter(beat, decimal-leading-zero); color: var(--gold); font-family: Georgia, serif; font-size: 1.4rem; }
+    .beat b { color: var(--muted); font-size: .82rem; }
+
+    .recommend { border: 1px solid rgba(216,174,103,.55); background: linear-gradient(135deg, rgba(216,174,103,.14), rgba(216,174,103,.035)); }
+    .source-list a { color: var(--gold); text-underline-offset: 3px; }
+    details { border-top: 1px solid var(--line); padding: 14px 0; }
+    summary { cursor: pointer; font-weight: 760; }
+    code { color: #f5d599; }
+    footer { padding: 34px 0 70px; color: var(--muted); }
+
+    @media (max-width: 820px) {
+      .grid.two, .grid.three, .direction { grid-template-columns: 1fr; }
+      .mockup { position: static; }
+      .specs { grid-template-columns: 1fr; }
+      .beat { grid-template-columns: 44px 84px 1fr; }
+      table { display: block; overflow-x: auto; }
+    }
+
+    @media print {
+      nav { display: none; }
+      body { background: #fff; color: #111; }
+      .muted, .lede { color: #444; }
+      .card, table { break-inside: avoid; }
+      .mockup { position: static; max-width: 430px; }
+      section { page-break-before: always; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap">
+      <p class="eyebrow">Design decision deck · 1 November 2026</p>
+      <h1>Make the game feel authored.</h1>
+      <p class="lede">A live audit of “The Pass,” three professional design directions, and a production-ready plan for motion, assets, performance, and accessibility.</p>
+      <div class="notice"><strong>URL mismatch:</strong> the supplied link currently serves a slot-game prototype called “The Pass,” not a guitar-club website. This deck evaluates the interface that is live at that URL.</div>
+    </div>
+  </header>
+
+  <nav aria-label="Deck sections">
+    <div class="wrap">
+      <a href="#audit">Audit</a>
+      <a href="#midnight">01 Midnight Atelier</a>
+      <a href="#rift">02 Rift Runner</a>
+      <a href="#playhouse">03 Playhouse</a>
+      <a href="#decision">Decision</a>
+      <a href="#motion">Motion system</a>
+      <a href="#roadmap">Roadmap</a>
+      <a href="#references">References</a>
+    </div>
+  </nav>
+
+  <main>
+    <section id="audit">
+      <div class="wrap">
+        <p class="eyebrow">Live product audit</p>
+        <h2>What currently breaks the illusion</h2>
+        <div class="grid three">
+          <article class="card audit-card"><div class="number">01</div><h3>Outcome visibility is obstructed</h3><p class="muted">The portrait character covers roughly a third of the reel board on mobile. Decorative art must never hide the result.</p></article>
+          <article class="card audit-card"><div class="number">02</div><h3>Themes change in fragments</h3><p class="muted">Title, background, symbols, and portrait do not arrive atomically. Visitors briefly see mixed themes and empty symbol wells.</p></article>
+          <article class="card audit-card"><div class="number">03</div><h3>Spin motion reads as placeholder</h3><p class="muted">Detailed symbols are repeatedly replaced by generic letter discs. Conflicting update and CSS cadences produce jitter instead of mass and inertia.</p></article>
+          <article class="card audit-card"><div class="number">04</div><h3>Art direction is not unified</h3><p class="muted">White-outline cartoon portraits, copper royal coins, purple line icons, and small clip-art characters use unrelated lighting, materials, and edge treatments.</p></article>
+          <article class="card audit-card"><div class="number">05</div><h3>First-load quality is fragile</h3><p class="muted">Large PNGs appear progressively, leaving empty circles. Assets need compression, preloading, atlases, responsive sizes, and immutable cache headers.</p></article>
+          <article class="card audit-card"><div class="number">06</div><h3>Controls lack product depth</h3><p class="muted">No paytable, rules, sound settings, result summary, or clear multiplier explanation. Auto also needs jurisdiction-aware handling.</p></article>
+        </div>
+        <div class="card" style="margin-top:18px">
+          <span class="tag green">Keep</span>
+          <p style="margin-top:12px">Native buttons, 44px targets, visible focus, <code>aria-pressed</code>, live balance/win values, and the existing <code>prefers-reduced-motion</code> branch are good foundations.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="midnight">
+      <div class="wrap direction">
+        <figure class="mockup"><img src="direction-1-midnight-atelier.png" alt="Midnight Atelier high-fidelity mobile game concept"></figure>
+        <div>
+          <span class="tag">Recommended</span>
+          <p class="eyebrow" style="margin-top:20px">Direction 01</p>
+          <h2>Midnight Atelier</h2>
+          <p class="lede">Restrained, luxurious, and credible: a private members’ club rather than a noisy arcade.</p>
+          <div class="swatches" aria-label="Palette">
+            <i style="background:#100e0d"></i><i style="background:#1b1917"></i><i style="background:#f3e9d2"></i><i style="background:#b68a45"></i><i style="background:#d54a35"></i>
+          </div>
+          <div class="specs">
+            <div class="spec"><strong>Best for</strong>Premium appeal, brand trust, and a fast path from prototype to polished product.</div>
+            <div class="spec"><strong>Type</strong>Instrument Serif or Fraunces for display; Geist or Manrope for UI and tabular data.</div>
+            <div class="spec"><strong>Visual language</strong>Precision-cut brass, leather, paper grain, softly lit reel wells, editorial character cameos.</div>
+            <div class="spec"><strong>Motion</strong>Quiet and intentional: 180–240ms controls, 400–600ms masked chapter transitions, short reel settle and light sweep.</div>
+            <div class="spec"><strong>Build</strong>CSS/WAAPI or Motion One for UI, Rive for control microstates, AVIF/WebP for art.</div>
+            <div class="spec"><strong>Risk</strong>Low technical risk, but exacting craft: poor spacing or inconsistent symbol lighting will be obvious.</div>
+          </div>
+          <h3 style="margin-top:28px">What changes from the current build</h3>
+          <ul>
+            <li>One sculpted cabinet replaces 15 unrelated rounded cells.</li>
+            <li>The hero becomes a small cameo outside the active result grid.</li>
+            <li>Chapter multipliers become an elegant progress itinerary.</li>
+            <li>Wins use a halo and light trace, not indiscriminate coin explosions.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="rift">
+      <div class="wrap direction">
+        <figure class="mockup"><img src="direction-2-rift-runner.png" alt="Rift Runner high-fidelity mobile game concept"></figure>
+        <div>
+          <span class="tag blue">Maximum spectacle</span>
+          <p class="eyebrow" style="margin-top:20px">Direction 02</p>
+          <h2>Rift Runner</h2>
+          <p class="lede">A cinematic, world-hopping portal game with the strongest trailer-like first impression.</p>
+          <div class="swatches" aria-label="Palette">
+            <i style="background:#090b0e"></i><i style="background:#ff5a2f"></i><i style="background:#f9b44a"></i><i style="background:#58c7ff"></i><i style="background:#7957ff"></i>
+          </div>
+          <div class="specs">
+            <div class="spec"><strong>Best for</strong>A flagship product where impact and a memorable world-switching mechanic justify a larger art budget.</div>
+            <div class="spec"><strong>Type</strong>Space Grotesk or Sora for UI; Archivo Black for chapter labels and multipliers.</div>
+            <div class="spec"><strong>Visual language</strong>Portal cabinet, miniature environment previews, layered atmosphere, luminous chapter-specific edges.</div>
+            <div class="spec"><strong>Motion</strong>Camera push, reel acceleration, staggered landing, anticipation slowdown, impact compression, concise result composition.</div>
+            <div class="spec"><strong>Build</strong>GSAP master timeline, PixiJS/WebGL for atmosphere, Rive controls, accessible DOM for all actual inputs.</div>
+            <div class="spec"><strong>Risk</strong>Highest cost. Requires quality tiers, texture budgets, thermal testing, and reduced-motion design from day one.</div>
+          </div>
+          <h3 style="margin-top:28px">Signature chapter effects</h3>
+          <ul>
+            <li>Kitchen: steam layer, ember pops, copper heat bloom.</li>
+            <li>Desert: restrained heat distortion, sand trails, long shadows.</li>
+            <li>Hunt: mist, shallow foliage parallax, lantern glow.</li>
+            <li>Winter: frost edge, crystalline settle, slow snow depth.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="playhouse">
+      <div class="wrap direction">
+        <figure class="mockup"><img src="direction-3-travelling-playhouse.png" alt="Travelling Playhouse high-fidelity mobile game concept"></figure>
+        <div>
+          <span class="tag red">Most distinctive</span>
+          <p class="eyebrow" style="margin-top:20px">Direction 03</p>
+          <h2>The Travelling Playhouse</h2>
+          <p class="lede">A handcrafted theatre and illustrated adventure book: authored, memorable, and lighter than full WebGL.</p>
+          <div class="swatches" aria-label="Palette">
+            <i style="background:#611f2d"></i><i style="background:#f5e6c8"></i><i style="background:#526347"></i><i style="background:#315d8c"></i><i style="background:#c79b51"></i>
+          </div>
+          <div class="specs">
+            <div class="spec"><strong>Best for</strong>Differentiation and a strong narrative identity without the performance cost of a cinematic portal world.</div>
+            <div class="spec"><strong>Type</strong>Fraunces or Cormorant for display; DM Sans for controls and numbers.</div>
+            <div class="spec"><strong>Visual language</strong>Proscenium stage, ticket tabs, screen-printed symbols, maps and journals used as disciplined accents.</div>
+            <div class="spec"><strong>Motion</strong>Paper reveals, curtain masks, spotlight wins, tactile tile settles, deliberately stepped decorative loops.</div>
+            <div class="spec"><strong>Build</strong>Layered SVG, CSS masks, Rive state machines, minimal canvas only for dust/confetti.</div>
+            <div class="spec"><strong>Risk</strong>Illustration and localization. Decorative typography must never be used for data or essential controls.</div>
+          </div>
+          <h3 style="margin-top:28px">What makes it ownable</h3>
+          <ul>
+            <li>Chapters become Acts; multipliers become the performance finale.</li>
+            <li>Every reveal feels like stagecraft rather than generic casino chrome.</li>
+            <li>Symbols can share one illustrated production pipeline across all worlds.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="decision">
+      <div class="wrap">
+        <p class="eyebrow">Decision matrix</p>
+        <h2>Choose with the real trade-offs visible</h2>
+        <table>
+          <thead><tr><th>Criterion</th><th>Midnight Atelier</th><th>Rift Runner</th><th>Travelling Playhouse</th></tr></thead>
+          <tbody>
+            <tr><td>Professional polish</td><td class="score">5 / 5</td><td class="score">5 / 5</td><td class="score">4.5 / 5</td></tr>
+            <tr><td>Distinctiveness</td><td class="score">4 / 5</td><td class="score">4.5 / 5</td><td class="score">5 / 5</td></tr>
+            <tr><td>Mobile performance</td><td class="score">5 / 5</td><td class="score">3 / 5</td><td class="score">4.5 / 5</td></tr>
+            <tr><td>Asset / animation cost</td><td>Medium</td><td>High</td><td>Medium</td></tr>
+            <tr><td>Accessibility complexity</td><td>Low</td><td>High</td><td>Medium</td></tr>
+            <tr><td>Time to strong MVP</td><td>Fastest</td><td>Slowest</td><td>Medium</td></tr>
+          </tbody>
+        </table>
+
+        <article class="card recommend" style="margin-top:24px">
+          <span class="tag">Recommendation</span>
+          <h3 style="margin-top:16px">Select Midnight Atelier for the first implementation.</h3>
+          <p>It directly fixes softness, inconsistent hierarchy, reel obstruction, and the scattered HUD with the lowest technical risk. Borrow one idea from the other directions: use Rift Runner’s transactional world transition and Playhouse’s tactile, authored symbol-set discipline.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="motion">
+      <div class="wrap">
+        <p class="eyebrow">Professional motion architecture</p>
+        <h2>One state machine, one timeline</h2>
+        <p class="lede">Animation should explain game state. It should never be a collection of independent looping effects.</p>
+        <div class="timeline">
+          <div class="beat"><b>0–120ms</b><span><strong>Commit</strong><br>Spin press compresses; input locks; accessible busy state begins.</span></div>
+          <div class="beat"><b>120–360ms</b><span><strong>Accelerate</strong><br>Each real reel strip reaches speed. No DOM replacement every tick.</span></div>
+          <div class="beat"><b>360–1150ms</b><span><strong>Travel</strong><br>Constant-speed transforms; restrained host tracking; theme atmosphere stays secondary.</span></div>
+          <div class="beat"><b>1150–1900ms</b><span><strong>Land</strong><br>Columns decelerate in sequence, overshoot 8–14px, settle with one cabinet impulse each.</span></div>
+          <div class="beat"><b>1900–2500ms</b><span><strong>Resolve</strong><br>Winning path draws; symbols pulse; amount counts once; character reacts after the result is visible.</span></div>
+          <div class="beat"><b>2500ms+</b><span><strong>Recover</strong><br>Controls unlock. Celebration scale matches the actual win tier; losses remain quiet.</span></div>
+        </div>
+        <div class="grid two" style="margin-top:28px">
+          <article class="card"><h3>Asset contract per chapter</h3><ul><li>One multilayer background: back, mid, foreground.</li><li>One consistent symbol atlas, AVIF/WebP, 1x/2x.</li><li>Hero states: idle, anticipate, small win, big win, miss.</li><li>One theme-specific FX atlas and one transition mask.</li><li>Poster-frame fallback for low-power and reduced-motion modes.</li></ul></article>
+          <article class="card"><h3>Performance contract</h3><ul><li>Transform/opacity on the hot path; no layout work per frame.</li><li>Preload the next complete theme before switching.</li><li>Mobile texture budget and quality tier selected at runtime.</li><li>60fps target; graceful 30fps effects tier; no essential information in canvas.</li><li>Immutable asset caching; version filenames, not <code>no-store</code>.</li></ul></article>
+        </div>
+      </div>
+    </section>
+
+    <section id="roadmap">
+      <div class="wrap">
+        <p class="eyebrow">Implementation roadmap</p>
+        <h2>Fix foundations before adding spectacle</h2>
+        <div class="grid three">
+          <article class="card"><span class="tag">Phase 1</span><h3 style="margin-top:14px">Stabilize</h3><ul><li>Remove reel overlap.</li><li>Create the stable mobile shell.</li><li>Compress and preload assets.</li><li>Make theme swaps atomic.</li><li>Add loading and error states.</li></ul></article>
+          <article class="card"><span class="tag blue">Phase 2</span><h3 style="margin-top:14px">Rebuild motion</h3><ul><li>Real reel tracks.</li><li>Master timeline/state machine.</li><li>Landing and win choreography.</li><li>Rive control microstates.</li><li>Reduced-motion timeline.</li></ul></article>
+          <article class="card"><span class="tag red">Phase 3</span><h3 style="margin-top:14px">Polish and QA</h3><ul><li>Sound and music controls.</li><li>Rules/paytable/help.</li><li>Screen-reader result summaries.</li><li>Low-end device profiling.</li><li>Jurisdiction and responsible-design review.</li></ul></article>
+        </div>
+        <div class="card" style="margin-top:18px"><strong>Non-negotiable:</strong> if this is intended for real-money gambling in Great Britain, the visible Auto control cannot ship unchanged. The UK Gambling Commission’s remote technical standards prohibit autoplay for online gaming and impose additional game-design requirements. Obtain jurisdiction-specific legal/compliance review.</div>
+      </div>
+    </section>
+
+    <section id="references">
+      <div class="wrap">
+        <p class="eyebrow">Benchmarks and evidence</p>
+        <h2>Reference set</h2>
+        <div class="grid two source-list">
+          <article class="card"><h3>Competitor patterns</h3><ul><li><a href="https://www.hacksawgaming.com/games/slots">Hacksaw Gaming slots</a> — vertical/mobile composition.</li><li><a href="https://www.pragmaticplay.com/en/pragmatic-play-pop/">Pragmatic Play POP</a> — short, legible casual-play cadence.</li><li><a href="https://www.playngo.com/post/play-n-go-rise-to-the-occasion-with-phoenix-reborn">Play’n GO Phoenix Reborn</a> — motion tied to mechanics.</li><li><a href="https://www.elk-studios.com/x-iter/">ELK X-iter</a> — explicit mode selection.</li><li><a href="https://games.evolution.com/slots/">Evolution Slots</a> — conventional symbol/rules language.</li><li><a href="https://nolimitcity.com/games">Nolimit City</a> — title-specific mechanic and art identity.</li></ul></article>
+          <article class="card"><h3>Standards and performance</h3><ul><li><a href="https://www.gamblingcommission.gov.uk/standards/remote-gambling-and-software-technical-standards/3-remote-gambling-and-software-technical-standards">UK Gambling Commission RTS</a>.</li><li><a href="https://www.gamblingcommission.gov.uk/consultation-response/online-games-design-and-reverse-withdrawals/ogdrw-annex-1-summary-of-changes-to-rts">UKGC game-design changes summary</a>.</li><li><a href="https://www.w3.org/WAI/WCAG22/Techniques/css/C39">WCAG technique C39: prefers-reduced-motion</a>.</li><li><a href="https://web.dev/articles/animations-and-performance">web.dev animation performance guidance</a>.</li></ul></article>
+        </div>
+
+        <div class="card" style="margin-top:22px">
+          <h3>AI concept-art provenance</h3>
+          <p class="muted">The three images in this deck were generated with the built-in OpenAI image-generation tool. They are visual direction references, not final interface exports. Production UI should be built from native DOM/CSS/SVG/Rive/Pixi assets.</p>
+          <details><summary>Prompt 01 — Midnight Atelier</summary><p class="small muted">High-fidelity 390×844-style mobile slot UI; private-members-club mood; ink, parchment, brass, vermilion; unobstructed 5×3 reels; small editorial character cameo; clear four-chapter selector and thumb-zone control dock; restrained light sweep and tactile settle; no casino clichés or overlapping artwork.</p></details>
+          <details><summary>Prompt 02 — Rift Runner</summary><p class="small muted">High-fidelity 390×844-style cinematic portal slot UI; carbon, ember, molten gold, ice blue, ultraviolet; four world previews; unobstructed 5×3 reels; stable bottom control deck; energy-ring spin state and 2.5D parallax cues; avoid clutter, excessive bloom, and generic cyberpunk HUD styling.</p></details>
+          <details><summary>Prompt 03 — Travelling Playhouse</summary><p class="small muted">High-fidelity 390×844-style handcrafted theatre/adventure-book slot UI; burgundy, bone, moss, cobalt, antique gold; four playbill tabs; unobstructed 5×3 proscenium reels; curtain-wipe, spotlight, stamped reward, and tile-settle cues; avoid scrapbook clutter and childish storybook styling.</p></details>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">Prepared from the live build at the supplied Cloudflare URL. Recommendation: approve one direction before production asset generation and implementation.</div></footer>
+</body>
+</html>
